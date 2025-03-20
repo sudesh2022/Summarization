@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF & PPT Summarizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Upload PDFs or PPTs for Summarization</h2>
+        <form action="/" method="post" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <input type="file" name="files" multiple class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload & Summarize</button>
+        </form>
+
+        {% if summaries %}
+            <h3 class="mt-5">Summaries</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Filename</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in summaries %}
+                        <tr>
+                            <td>{{ entry.filename }}</td>
+                            <td>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Summary Point</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if entry.summary is iterable and entry.summary is not string %}
+                                            {% for point in entry.summary %}
+                                            <tr>
+                                                <td>{{ point.point }}</td>
+                                                <td>{{ point.text }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="2">{{ entry.summary }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
