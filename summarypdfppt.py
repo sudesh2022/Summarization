@@ -105,7 +105,7 @@ def upload_files():
                     text_chunks = future.result()
             
             if text_chunks:
-                summary_text = map_reduce_summary(text_chunks, "mistral")
+                summary_text = map_reduce_summary(text_chunks, "granite3-moe:3b")
                 formatted_summary = format_summary(summary_text)
                 summaries.append({"filename": file.filename, "summary": formatted_summary})
             else:
